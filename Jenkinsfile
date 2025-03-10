@@ -27,14 +27,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'git config --global user.name "Sruthika"'
-                    sh 'git config --global user.email "sruthikatb@gmail.com"'
+                    sh 'git config --global user.name Sruthika'
+                    sh 'git config --global user.email sruthikatb@gmail.com'
+                    sh 'git clean -fd'  // Removes untracked files
                     sh 'git checkout main'
-                    sh 'git add -A'
-                    sh 'git commit -m "Added hello.cpp file" || echo "No changes to commit"'
                 }
             }
         }
+
 
         stage('Post Actions') {
             steps {
