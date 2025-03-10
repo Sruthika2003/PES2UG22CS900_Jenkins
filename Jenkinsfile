@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'g++ -o PES2UG22CS900-1 hello.cpp'
+                    sh 'g++ -wrongflag -o PES2UG22CS900-1 hello.cpp'
                 }
             }
         }
