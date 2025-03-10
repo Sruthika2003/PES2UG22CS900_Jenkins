@@ -29,12 +29,14 @@ pipeline {
                 script {
                     sh 'git config --global user.name "T B Sruthika"'
                     sh 'git config --global user.email "sruthikatb@gmail.com"'
-                    sh 'git checkout main'
+                    sh 'git checkout -B main origin/main'  // Ensures correct branch checkout
                     sh 'git add -A'
                     sh 'git commit -m "Added test.cpp file" || echo "No changes to commit"'
+                    sh 'git push origin main'  // Push changes back to GitHub
                 }
             }
         }
+
 
         stage('Post Actions') {
             steps {
