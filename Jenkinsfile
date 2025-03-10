@@ -4,43 +4,48 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Sruthika2003/PES2UG22CS900_Jenkins'
+                checkout scm
             }
         }
-
+        
         stage('Build') {
             steps {
-                sh '''
-                ls -l test.cpp  # Debugging step: Check if test.cpp exists
-                g++ -o PES2UG22CS900-1 test.cpp
-                ls -l  # Check if PES2UG22CS900-1 was created
-                '''
+                script {
+                    sh 'g++ -o PES2UG22CS900-1 hello.cpp'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh '''
-                chmod +x PES2UG22CS900-1  # Ensure it's executable
-                ./PES2UG22CS900-1
-                '''
+                script {
+                    sh './PES2UG22CS900-1'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                sh '''
-                git add test.cpp
-                git commit -m "Updated test.cpp"
-                git push origin main
-                '''
+                script {
+                    sh 'git config --global user.name "T B Sruthika"'
+                    sh 'git config --global user.email "sruthikatb@gmail.com"'
+                    sh 'git checkout main'
+                    sh 'git add -A'
+                    sh 'git commit -m "Added hello.cpp file" || echo "No changes to commit"'
+                }
+            }
+        }
+
+        stage('Post Actions') {
+            steps {
+                echo "Pipeline completed successfully"
             }
         }
     }
 
     post {
         success {
-            echo "Pipeline executed successfully!"
+            echo "Build and deployment successful!"
         }
         failure {
             echo "Pipeline failed"
