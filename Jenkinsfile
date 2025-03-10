@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'g++ -o PES2UG22CS900-1 hello.cpp'
+                    sh 'g++ -o PES2UG22CS900-1 test.cpp'
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
                     sh 'git config --global user.email "sruthikatb@gmail.com"'
                     sh 'git checkout main'
                     sh 'git add -A'
-                    sh 'git commit -m "Added hello.cpp file" || echo "No changes to commit"'
+                    sh 'git commit -m "Added test.cpp file" || echo "No changes to commit"'
                 }
             }
         }
