@@ -2,55 +2,48 @@ pipeline {
     agent any
 
     stages {
-        stage('Create File') {
+        stage('Checkout') {
             steps {
-                script {
-                    sh '''
-                    echo '#include <iostream>' > program.cpp
-                    echo 'using namespace std;' >> program.cpp
-                    echo 'int main() {' >> program.cpp
-                    echo '    cout << "Hello, Jenkins!" << endl;' >> program.cpp
-                    echo '    return 0;' >> program.cpp
-                    echo '}' >> program.cpp
-                    '''
-                }
+                git 'https://github.com/Sruthika2003/PES2UG22CS900_Jenkins'
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    sh 'g++ -o YOUR_SRN-1 program.cpp' // Replace YOUR_SRN with your actual SRN
-                }
+                sh '''
+                ls -l test.cpp  # Debugging step: Check if test.cpp exists
+                g++ -o PES2UG22CS900-1 test.cpp
+                ls -l  # Check if PES2UG22CS900-1 was created
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    sh './PES2UG22CS900-1' // Run the compiled C++ file
-                }
+                sh '''
+                chmod +x PES2UG22CS900-1  # Ensure it's executable
+                ./PES2UG22CS900-1
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
-                script {
-                    sh '''
-                    git config --global user.name "T B SRUTHIKA"
-                    git config --global user.email "sruthikatb@gmail.com"
-                    git add program.cpp
-                    git commit -m "Added new C++ file"
-                    git push origin main
-                    '''
-                }
+                sh '''
+                git add test.cpp
+                git commit -m "Updated test.cpp"
+                git push origin main
+                '''
             }
         }
     }
 
     post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
         failure {
-            echo 'pipeline failed'
+            echo "Pipeline failed"
         }
     }
 }
